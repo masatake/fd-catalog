@@ -72,6 +72,12 @@ open_pipe(struct factory *f)
 }
 
 static int
+open_ro_dev_null(struct factory *f)
+{
+	return open("/dev/null", O_RDONLY);
+}
+
+static int
 open_socketpair(struct factory *f,
 		int domain, int type, int protocol)
 {
@@ -116,6 +122,11 @@ static struct factory factories[] = {
 		.name = "pipe",
 		.desc = "pipe",
 		.open = open_pipe,
+	},
+	{
+		.name = "ro-char-dev-devzero",
+		.desc = "read-only character device (/dev/null)",
+		.open = open_ro_dev_null,
 	},
 	{
 		.name = "socketpair-unix-stream",
