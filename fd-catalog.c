@@ -78,6 +78,12 @@ open_ro_dev_null(struct factory *f)
 }
 
 static int
+open_ro_dev_loop0(struct factory *f)
+{
+	return open("/dev/loop0", O_RDONLY);
+}
+
+static int
 open_socketpair(struct factory *f,
 		int domain, int type, int protocol)
 {
@@ -127,6 +133,12 @@ static struct factory factories[] = {
 		.name = "ro-char-dev-devzero",
 		.desc = "read-only character device (/dev/null)",
 		.open = open_ro_dev_null,
+	},
+	{
+		.name = "ro-blk-dev-loop0",
+		.desc = "read-only block device (/dev/loop0)",
+		.need_privilege = true,
+		.open = open_ro_dev_loop0,
 	},
 	{
 		.name = "socketpair-unix-stream",
